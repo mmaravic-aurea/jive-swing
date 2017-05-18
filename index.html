@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Xmpp</title>
+
+    <link rel="stylesheet" type="text/css" href="bootstrap-4.0.0-alpha.6-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="bootstrap-4.0.0-alpha.6-dist/css/bootstrap-grid.min.css">
+
+    <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js'></script>
+
+    <script type="text/javascript" src="EventEmitter.min.js"></script>
+    <script type='text/javascript' src='stanzaio.bundle.min.js'></script>
+
+    <script type='text/javascript' src='stanzaio-client.js'></script>
+    <script type='text/javascript' src='main.js'></script>
+
+</head>
+<body style="margin: 5px">
+
+<div class="container-fluid">
+
+    <form class="form-inline">
+
+        <label class="mr-sm-2" for='jid'>JID</label>
+        <input class="form-control mb-2 mr-sm-2 mb-sm-0" type='text' id='jid' placeholder="jid"/>
+
+        <label class="mr-sm-2" for='pass'>Password</label>
+        <input class="form-control mb-2 mr-sm-2 mb-sm-0" type='password' id='pass' placeholder="password"/>
+
+
+        <input type='button' class="btn btn-primary" id='connect' value='connect'/>
+    </form>
+
+    <hr/>
+
+    <div class="row">
+        <div class="col-lg-3 col-md-5 col-sm-6">
+
+            <div class="card">
+                <div class="card-block">
+                    <h4>Channels</h4>
+                </div>
+
+                <div class="list-group list-group-flush" id="channels">
+
+                </div>
+
+                <div class="card-block">
+                    <h4>Direct Messages</h4>
+                </div>
+
+                <div class="list-group list-group-flush" id="users">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-9 col-md-7 col-sm-6">
+            <div class="card">
+                <div id='messages' class="card-block" style='min-height:400px;max-height: 400px; overflow: auto'>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="input-group">
+                <span id="send" class="input-group-addon btn btn-success">+</span>
+                <textarea class="form-control" rows="1" id='msg'></textarea>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
