@@ -26,6 +26,10 @@ function XmppClient() {
 
         client.on('chat', (msg) => ee.emitEvent('direct-message', [msg]));
         client.on('groupchat', (msg) => ee.emitEvent('channel-message', [msg]));
+        client.enableKeepAlive({
+            'interval': 5,
+            'timeout': 10
+        });
 
         client.connect();
     };
