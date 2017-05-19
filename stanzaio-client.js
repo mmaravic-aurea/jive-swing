@@ -10,11 +10,11 @@ function XmppClient() {
 
             transport: 'websocket',
 
-             wsURL: 'wss://jive-swing-xmpp-exp.ecs.devfactory.com/ws/',
-             boshURL: 'https://jive-swing-xmpp-exp.ecs.devfactory.com/http-bind/'
+            wsURL: 'wss://jive-swing-xmpp-exp.ecs.devfactory.com/ws/',
+            boshURL: 'https://jive-swing-xmpp-exp.ecs.devfactory.com/http-bind/'
 
-            //wsURL: 'ws://localhost:7070/ws/',
-            //boshURL: 'http://localhost:7070/http-bind/'
+            // wsURL: 'ws://localhost:7070/ws/',
+            // boshURL: 'http://localhost:7070/http-bind/'
         });
 
         client.on('session:started', () => {
@@ -65,12 +65,12 @@ function XmppClient() {
         client.requestRoomVoice(jid);
     };
 
-	//This function loads the entire history, icluding room history - which is also sent by default by openfire. 
-	//Check https://github.com/legastero/stanza.io/blob/master/docs/Reference.md#clientsearchhistoryopts-cb for search options
-	this.getHistory = (callback) => client.searchHistory({}, (err, data) => callback(getHistoryMessages(data)));
-	
+    //This function loads the entire history, icluding room history - which is also sent by default by openfire.
+    //Check https://github.com/legastero/stanza.io/blob/master/docs/Reference.md#clientsearchhistoryopts-cb for search options
+    this.getHistory = (callback) => client.searchHistory({}, (err, data) => callback(getHistoryMessages(data)));
+
     this.onDirectMessage = (handler) => ee.addListener('direct-message', handler);
-	
+
     this.onChannelMessage = (handler) => ee.addListener('channel-message', handler);
 
     function getDirectMessages(data) {
@@ -80,8 +80,8 @@ function XmppClient() {
     function getRooms(data) {
         return data.discoItems.items.map(i => i.jid.bare);
     }
-	
-	function getHistoryMessages(data) {
-		return data.mamResult.items.map(i => i.forwarded.message);
-	}
+
+    function getHistoryMessages(data) {
+        return data.mamResult.items.map(i => i.forwarded.message);
+    }
 }
