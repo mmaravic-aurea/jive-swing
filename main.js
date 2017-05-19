@@ -15,17 +15,12 @@ $(document).ready(function () {
         client.authenticate(username, password, (status) => onAuthentication(status));
     });
 
-    $("#send").click(function () {
-        const to = activeChattable.jid;
-        const msg = $("#msg").val();
-
-        $("#msg").val("");
-
-        if (activeChattable.isChannel) {
-            client.sendChannelMessage(to, msg)
-        } else {
-            client.sendDirectMessage(to, msg);
-            updateMessages($("#jid").val(), to, msg)
+    $("#send").click(() => sendMessage());
+    $("#msg").keypress(e => {
+        let keycode = e.keyCode || e.which;
+        if(keycode === 13) {
+            sendMessage();
+            return false;
         }
     });
 
@@ -68,6 +63,22 @@ $(document).ready(function () {
         dom.click(() => setActiveChattable(chattable));
 
         return chattable;
+    }
+
+    function sendMessage() {
+        const to = activeChattable.jid;
+        const msg = $("#msg").val();
+
+        $("#msg").val("");
+
+        if (activeChattable.isChannel) {
+            client.sendChannelMessage(to, msg)
+        } else {
+            client.sendDirectMessage(to, msg);
+            updateMessages($("#jid").val(), to, msg)
+        }
+
+        $("#msg").focus();
     }
 
     function setActiveChattable(chattable) {
