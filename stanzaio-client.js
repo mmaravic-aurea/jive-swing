@@ -10,13 +10,13 @@ function XmppClient() {
 
             transport: 'websocket',
 
-            wsURL: 'wss://jive-swing-xmpp-exp.ecs.devfactory.com/ws/',
+            wsURL: 'wss://jive-swing-xmpp-exp.ecs.devfactory.com:444/ws/',
             boshURL: 'https://jive-swing-xmpp-exp.ecs.devfactory.com/http-bind/'
 
             // wsURL: 'ws://localhost:7070/ws/',
             // boshURL: 'http://localhost:7070/http-bind/'
         });
-
+		
         client.on('session:started', () => {
             client.sendPresence();
             callback("success");
@@ -32,6 +32,7 @@ function XmppClient() {
         });
 
         client.connect();
+		client.sendPresence();
     };
 
     this.sendDirectMessage = function (to, message) {

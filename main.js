@@ -66,6 +66,9 @@ $(document).ready(function () {
     }
 
     function sendMessage() {
+        if(!$("#msg").val()) {
+            return;
+        }
         const to = activeChattable.jid;
         const msg = $("#msg").val();
 
@@ -95,6 +98,9 @@ $(document).ready(function () {
 
     function updateMessages(fromJid, chattableJid, message) {
         let chattable = chattables.find(c => c.jid === chattableJid);
+		if (!chattable) {
+			chattable = addChattable($("#users"), chattableJid, false);
+		}
         chattable.history.push({
             from: fromJid,
             message: message
