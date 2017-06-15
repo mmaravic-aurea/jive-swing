@@ -10,8 +10,8 @@ function XmppClient() {
 
             transport: 'websocket',
 
-            wsURL: 'wss://jive-swing-xmpp-exp.ecs.devfactory.com:444/ws/',
-            boshURL: 'https://jive-swing-xmpp-exp.ecs.devfactory.com/http-bind/'
+            wsURL: 'wss://jive-swing-xmpp-stg.ecs.devfactory.com:444/ws',
+            boshURL: 'https://jive-swing-xmpp-stg.ecs.devfactory.com/http-bind'
 
             // wsURL: 'ws://localhost:7070/ws/',
             // boshURL: 'http://localhost:7070/http-bind/'
@@ -51,7 +51,7 @@ function XmppClient() {
         });
     };
 
-    this.getChannels = (callback) => client.getDiscoItems("conference.swing", "",
+    this.getChannels = (callback) => client.getDiscoItems("muc.swing", "",
         (err, data) => callback(getRooms(data)));
 
     this.getDirectMessages = (callback) => client.getRoster((err, data) => callback(getDirectMessages(data)));
