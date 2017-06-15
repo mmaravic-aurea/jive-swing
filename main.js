@@ -11,8 +11,9 @@ $(document).ready(function () {
     $("#connect").click(function () {
         const username = $("#jid").val();
         const password = $("#pass").val();
+        const protocol = $("#protocol").val();
 
-        client.authenticate(username, password, (status) => onAuthentication(status));
+        client.authenticate(username, password, protocol, (status) => onAuthentication(status));
     });
 
     $("#send").click(() => sendMessage());

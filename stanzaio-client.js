@@ -3,12 +3,12 @@ function XmppClient() {
     let client;
     let ee = new EventEmitter();
 
-    this.authenticate = function (username, password, callback) {
+    this.authenticate = function (username, password, protocol, callback) {
         client = XMPP.createClient({
             jid: username,
             password: password,
 
-            transport: 'websocket',
+            transport: protocol,
 
             wsURL: 'wss://jive-swing-xmpp-stg.ecs.devfactory.com:444/ws',
             boshURL: 'https://jive-swing-xmpp-stg.ecs.devfactory.com/http-bind'
