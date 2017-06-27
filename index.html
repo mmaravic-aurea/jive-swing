@@ -9,9 +9,11 @@
     <script type='text/javascript' src='jquery-3.2.1.min.js'></script>
 
     <script type="text/javascript" src="EventEmitter.min.js"></script>
-    <script type='text/javascript' src='stanzaio.bundle.min.js'></script>
+    <script type="text/javascript" src="strophe.min.js"></script>
+    <script type="text/javascript" src="strophe.disco.js"></script>
+    <script type="text/javascript" src="strophe.muc.js"></script>
 
-    <script type='text/javascript' src='stanzaio-client.js'></script>
+    <script type='text/javascript' src='xmpp-client.js'></script>
     <script type='text/javascript' src='main.js'></script>
 
 </head>
@@ -22,11 +24,11 @@
     <form class="form-inline">
 
         <select class="form-control" id="protocol">
-            <option>websocket</option>
             <option>bosh</option>
+            <option>websocket</option>
         </select>
         &nbsp;&nbsp;
-        <label class="mr-sm-2" for='jid'>JID</label>
+        <label class="mr-sm-2" for='jid'>Username</label>
         <input class="form-control mb-2 mr-sm-2 mb-sm-0" type='text' id='jid' placeholder="jid"/>
 
         <label class="mr-sm-2" for='pass'>Password</label>
@@ -34,6 +36,8 @@
 
 
         <input type='button' class="btn btn-primary" id='connect' value='connect'/>
+        &nbsp;
+        <input type='button' class="btn btn-primary" id='disconnect' value='disconnect'/>
     </form>
 
     <hr/>

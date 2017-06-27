@@ -9,40 +9,67 @@ $(document).ready(function () {
     client.onChannelMessage(m => updateMessages(m.from.resource, m.from.bare, m.body));
 
     $("#connect").click(function () {
-        const username = $("#jid").val();
+        const username = $("#jid").val() + "@swing/" + generateId(12);
         const password = $("#pass").val();
         const protocol = $("#protocol").val();
 
         client.authenticate(username, password, protocol, (status) => onAuthentication(status));
     });
 
+    $("#disconnect").click(function () {
+        client.disconnect();
+    });
+
     $("#send").click(() => sendMessage());
     $("#msg").keypress(e => {
         let keycode = e.keyCode || e.which;
-        if(keycode === 13) {
+        if (keycode === 13) {
             sendMessage();
             return false;
         }
     });
 
+    // dec2hex :: Integer -> String
+    function dec2hex(dec) {
+        return ('0' + dec.toString(16)).substr(-2)
+    }
+
+    // generateId :: Integer -> String
+    function generateId(len) {
+        var arr = new Uint8Array((len || 40) / 2)
+        window.crypto.getRandomValues(arr)
+        return Array.from(arr, dec2hex).join('')
+    }
+
     function onAuthentication(status) {
-        if (status !== "success") {
-            alert("Authentication failed");
-            return;
+
+        if (status == Strophe.Status.CONNECTING) {
+            $("#messages").append("<i>Strophe is connecting...</i><br>");
+        } else if (status == Strophe.Status.CONNFAIL) {
+            $("#messages").append("<i>Strophe failed to connec!.</i><br>");
+        } else if (status == Strophe.Status.DISCONNECTING) {
+            $("#messages").append("<i>Strophe is disconnecting...</i><br>");
+        } else if (status == Strophe.Status.DISCONNECTED) {
+            $("#messages").append("<i>Strophe is disconnected!</i><br>");
+        } else if (status == Strophe.Status.CONNECTED) {
+            $("#messages").append("<i>Strophe is connected!</i><br>");
+            chattables = [];
+            $("#channels").empty();
+            $("#users").empty();
+
+            client.getChannels((channels) => displayChannels(channels));
         }
-
-        chattables = [];
-        $("#channels").empty();
-        $("#users").empty();
-
-        client.getChannels((channels) => displayChannels(channels));
-        client.getDirectMessages((dms) => displayDirectMessages(dms));
-        client.getHistory((messages) => updateHistory(messages));
+        /*
+                client.getChannels((channels) => displayChannels(channels));
+                client.getDirectMessages((dms) => displayDirectMessages(dms));
+                client.getHistory((messages) => updateHistory(messages)); */
     }
 
     function displayChannels(channels) {
-        channels.forEach(c => addChattable($("#channels"), c, true));
-        channels.forEach(c => client.joinChannel(c, $("#jid").val()));
+        var channelJids = $(channels).find('item').map(function() {return this.getAttribute('jid')}).get();
+
+        channelJids.forEach(c => addChattable($("#channels"), c, true));
+        channelJids.forEach(c => client.joinChannel(c, $("#jid").val()));
     }
 
     function displayDirectMessages(dms) {
@@ -67,7 +94,7 @@ $(document).ready(function () {
     }
 
     function sendMessage() {
-        if(!$("#msg").val()) {
+        if (!$("#msg").val()) {
             return;
         }
         const to = activeChattable.jid;
@@ -99,9 +126,9 @@ $(document).ready(function () {
 
     function updateMessages(fromJid, chattableJid, message) {
         let chattable = chattables.find(c => c.jid === chattableJid);
-		if (!chattable) {
-			chattable = addChattable($("#users"), chattableJid, false);
-		}
+        if (!chattable) {
+            chattable = addChattable($("#users"), chattableJid, false);
+        }
         chattable.history.push({
             from: fromJid,
             message: message
